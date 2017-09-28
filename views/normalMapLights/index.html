@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Normal map lighting</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+	<style>
+		body { margin: 0; }
+	</style>
+</head>
+<body>
+	<script type="shader-code" id="fragShader">
+		uniform vec2 resolution;
+		uniform vec3 light;
+		uniform sampler2D normalMap;
+		void main(){
+			vec2 pixel = gl_FragCoord.xy / resolution.xy; // find pixel on screen
+			vec3 normal = texture2D(normalMap, pixel).xyz; //get surface normal at pixel
+			normal -= vec3(0.5,0.5,0.0); // shift normal co-ordinate system
+			vec4 color = vec4(1.0, pixel.x, pixel.y, 1.0); // pixel color determined by pixel coordinates
+
+			vec3 lightDirection = vec3(light.x - gl_FragCoord.x, light.y - gl_FragCoord.y, 60.0); 
+			
+			lightDirection = normalize(lightDirection);
+			normal =  normalize(normal);
+			
+			float diffuse = max(dot(lightDirection,normal), 0.0);
+			float distance = distance(light.xy, gl_FragCoord.xy);
+
+			if(distance < light.z * resolution.x){
+				float distanceFactor = (1.0 - (distance/(light.z * resolution.x)));
+				gl_FragColor = color * diffuse * distanceFactor;
+			}
+			else{
+				gl_FragColor = vec4(0.0);
+			}
+		}
+	</script>
+	<script>
+		var scene;
+		var camera;
+		var renderer;
+
+		function scene_setup(){
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+		}
+
+		function render() {
+			requestAnimationFrame( render );
+			renderer.render( scene, camera );
+		}
+		
+
+		scene_setup();
+
+		var uniforms = {
+			normalMap:{type:'t',value: THREE.ImageUtils.loadTexture('public/images/demos/normal_map.jpg')},
+			 //Normal map image courtesy of junninhotor - DeviantArt. Image url: http://www.deviantart.com/art/Free-tilable-normal-map-411253812
+		
+			light:{type:'v3',value: new THREE.Vector3()},
+			resolution: {type:"v2", value:new THREE.Vector2(window.innerWidth, window.innerHeight)},
+		};
+		uniforms.light.value.z = 1;
+		
+		var shaderCode = document.getElementById('fragShader').innerHTML;
+		var material = new THREE.ShaderMaterial({uniforms:uniforms, fragmentShader: shaderCode});
+		var geometry = new THREE.PlaneGeometry(10, 10);
+		var sprite = new THREE.Mesh(geometry, material);
+		scene.add(sprite);
+		sprite.position.z = -3;
+
+		render();
+
+		document.onmousemove = function(event) {
+			uniforms.light.value.x = event.clientX;
+			uniforms.light.value.y = window.innerHeight - event.clientY;
+		}
+	</script>
+</body>
+</html>
