@@ -295,6 +295,18 @@ background:url('../images/social.gif') -320px 0;
 .mail:hover{
     background:url('../images/social.gif') -384px -64px;
 }
+.medium{
+  background: url("../images/medium.png") 0 0;
+}
+.medium:hover{
+  background: url("../images/medium.png") 0 -64px;
+}
+.youtube{
+  background: url("../images/youtube.png") 0 0;
+}
+.youtube:hover{
+  background: url("../images/youtube.png") 0 -64px;
+}
 footer{
     color:#fff;
     background-color: #000;
