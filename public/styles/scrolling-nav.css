@@ -196,16 +196,21 @@ p.visible-sm-block{
     background-color: #663025;
 }
 
-.panel-heading > a:hover{
+.panel-heading div{
   text-decoration: none;
 }
-.panel-heading > a:focus{
+.panel-heading div{
   outline: none;
   color: #C29D4E;
 }
 
+.panel-body {
+  text-align: left;
+}
+
 .panel-title{
   color: #FFF;
+  font-size: x-large;
 }
 
 @media (max-width: 767px) {
