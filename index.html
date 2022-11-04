@@ -8,7 +8,7 @@
 	<meta name="HandheldFriendly" content="true">
 	<meta name="viewport" content="width=device-width, initial-scale=0.666667, maximum-scale=0.666667, user-scalable=0">
 	<meta name="viewport" content="width=device-width">
-	<meta name="description" content="Website of Abinand Sivakumar. Portfolio of a passionate web and game developer.">
+	<meta name="description" content="Portfolio website of Abinand Sivakumar. Web, games and real-time 3D experience developer.">
 	<meta name="keywords" content="abinand, abinand sivakumar, software developer, game developer">
 	
 	<title>Abinand Sivakumar</title>
@@ -269,15 +269,21 @@
 						<!-- Project 2 -->
 						<div class="row">
 							<div class="col-lg-12">
-								<h2 class="pull-left">Shader Lighting</h2>
+								<h2 class="pull-left">Quaternion conversion and interpolation</h2>
 							</div>
 						</div>
+						<p>A javascript implementation of the spherical linear interpolation algorithm from <a target="_blank" href="https://gamemath.com/book/orient.html#quaternions">gamemath.com</a> used to show how quaternions are used for animating rotations</p>
+						<p>The demo includes animations on a primitive 3D cube, completely made in WebGL using math utilities but <b>without any frameworks </b>like three.js</p>
 						
-						<p> Demonstrates a fragment shader used to render a diffuse light on a normal map. The surface plane and the scene is created using the three.js library. The normal map is courtesy of <a target="_blank" href="http://www.deviantart.com/art/Free-tilable-normal-map-411253812">Deviant Art</a>. The light color varies depending on the pixel position on the screen.  </p>
-						
-						<div class="row visible-md-block visible-lg-block">
-							<div class="col-md-12"><a href="views/normalMapLights" target="_blank" class="btn btn-info">View demo</a></div>
+						<div class="row">
+							<div class="col-md-3"></div>
+							<div class="col-md-2 visible-lg-block visible-md-block"><a href="views/quaternion" target="_blank" class="btn btn-info">View demo</a></div>
+							<div class="col-md-2"></div>
+							<div class="col-md-2"><a href="https://github.com/abinand/html-games/tree/master/quaternions" target="_blank" class="btn btn-info">View code</a></div>
+							<div class="col-md-3"></div>
 						</div>
+						
+						
 						
 					</div>
 				</div>
@@ -311,16 +317,15 @@
 						
 						<div class="row">
 							<div class="col-lg-12">
-								<h2 class="pull-left">Quaternion Slerp</h2>
+								<h2 class="pull-left">Shader Lighting</h2>
 							</div>
 						</div>
 						
-						<p>A simple WebGL demo to illustrate how Quaternions can be used for interpolating rotations. The desired final orientation is input as euler angles. The angles are converted to a quaternion representation and used for spherical linear interpolation (slerp) from the inital orientation. The actual representations are matrices in WebGL of course but the rotation animations are easier with quaternions and do not have gimbal lock problems as we find in euler angles. The <a href="https://github.com/abinand/html-games/tree/master/quaternions" target="_blank">source code</a> is available on github</p>
+						<p> Demonstrates a fragment shader used to render a diffuse light on a normal map. The surface plane and the scene is created using the three.js library. The normal map is courtesy of <a target="_blank" href="http://www.deviantart.com/art/Free-tilable-normal-map-411253812">Deviant Art</a>. The light color varies depending on the pixel position on the screen.  </p>
 						
 						<div class="row visible-md-block visible-lg-block">
-							<div class="col-md-12"><a href="views/quaternion" target="_blank" class="btn btn-info">View demo</a></div>
+							<div class="col-md-12"><a href="views/normalMapLights" target="_blank" class="btn btn-info">View demo</a></div>
 						</div>
-						
 						
 						
 						<div class="row">
@@ -379,4 +384,5 @@
 	</body>
 	
 	</html>
+	
 	

@@ -1,6 +1,7 @@
 .centered-div 
 {
-	width: 700px;
+	width: 70%;
 	height: 550px;
 	margin: 0 auto;
+	font-family: Arial, Helvetica, sans-serif;
 }
