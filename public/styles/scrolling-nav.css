@@ -245,8 +245,10 @@ p.visible-sm-block{
     width:64px;
     height:64px;
     margin: 15px;
-    border-bottom: none !important;
-    list-style-type: none !important;
+    border-bottom: none;
+    list-style-type: none;
+    border-radius: 15%;
+    box-shadow: #888 3px 3px 5px, #888 -3px -3px 5px;
 }
  
 #social li a{
@@ -256,49 +258,11 @@ p.visible-sm-block{
     text-indent: -9999px;
     overflow: hidden;
 }
-
-.facebook{
-    
-    background:url('../images/social.gif') 0 0;
-}
-.facebook:hover{
-    background:url('../images/social.gif') 0 -64px;
-}
-.twitter{
-    background:url('../images/social.gif') -64px 0;
-}
-.twitter:hover{
-    background:url('../images/social.gif') -64px -64px;
-}
-.google{
-    background:url('../images/social.gif') -128px 0;
-}
-.google:hover{
-    background:url('../images/social.gif') -128px -64px;
-}
-.linkedin{
-    background:url('../images/social.gif') -192px 0;
-}
-.linkedin:hover{
-    background:url('../images/social.gif') -192px -64px;
-}
-.skype{
-    background:url('../images/social.gif') -256px 0;
-}
-.skype:hover{
-    background:url('../images/social.gif') -256px -64px;
-}
 .github{
-background:url('../images/social.gif') -320px 0;
+    background:url('../images/github.png') 0 0;
 }
 .github:hover{
-    background:url('../images/social.gif') -320px -64px;
-}
-.mail{
-    background:url('../images/social.gif') -384px 0;
-}
-.mail:hover{
-    background:url('../images/social.gif') -384px -64px;
+    background:url('../images/github.png') 0 -64px;
 }
 .medium{
   background: url("../images/medium.png") 0 0;
@@ -311,6 +275,12 @@ background:url('../images/social.gif') -320px 0;
 }
 .codepen:hover{
   background: url("../images/codepen.png") 0 -64px;
+}
+.linkedin {
+  background: url("../images/linkedin.png") 0 0;
+}
+.linkedin:hover {
+  background: url("../images/linkedin.png") 0 -64px;
 }
 footer{
     color:#fff;
