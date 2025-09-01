@@ -35,7 +35,7 @@ var lastTime = 0;
 var container = document.getElementById("intro");
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 100);
-camera.position.z=5;
+camera.position.z=10;
 var renderer = new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setClearColor(0x000000,0); //transparent background
@@ -47,18 +47,12 @@ var uniforms={
 	time: {type:"f",value:0}
 }
 
-//var shaderCode = document.getElementById('fragShader').innerHTML;
-// var geometry = new THREE.PlaneGeometry(10, 10);
-// var material = new THREE.ShaderMaterial({uniforms:uniforms, fragmentShader: shaderCode});
-// var plane = new THREE.Mesh(geometry, material);
-//scene.add(plane);
-
 var cubes = [];
 var yPosition;
 var zPosition = -5;
-for(var zCubes = 0; zCubes < 10; ++zCubes){
+for(var zCubes = 0; zCubes < 5; ++zCubes){
   yPosition = -5;
-  for(var yCubes=0; yCubes< 10; ++yCubes){
+  for(var yCubes=0; yCubes< 5; ++yCubes){
     var cubeGeometry = new THREE.BoxGeometry(0.5,0.5,0.5);
     var cubeMaterial = new THREE.MeshLambertMaterial({color:Math.random() * 0xffffff});
     var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
