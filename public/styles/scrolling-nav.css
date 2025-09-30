@@ -233,6 +233,7 @@ p.visible-sm-block{
 .btn-info{
   background-color: var(--color-btn-info-bg);
   border-color: var(--color-btn-info-border);
+  margin-bottom: 0.5em;
 }
 
 .panel-default > .panel-heading {
