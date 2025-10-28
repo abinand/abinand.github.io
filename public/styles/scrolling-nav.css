@@ -360,6 +360,12 @@ p.visible-sm-block{
 .linkedin:hover {
   background: url("../images/linkedin.png") 0 -64px;
 }
+.kaggle {
+  background: url("../images/kaggle.png") 0 0;
+}
+.kaggle:hover {
+  background: url("../images/kaggle.png") 0 -64px;
+}
 footer{
   color: var(--color-footer-text);
   background-color: var(--color-footer-bg);
