@@ -364,3 +364,14 @@ footer{
   color: var(--color-footer-text);
   background-color: var(--color-footer-bg);
 }
+/* Make the last section scrollable to the end */
+.portfolio-scroll {
+  max-height: calc(100vh - 120px); /* Adjust if your navbar is taller */
+  overflow-y: auto;
+  padding-right: 15px; /* avoid horizontal scrollbar from card gutters */
+}
+.portfolio-card {
+  margin-bottom: 20px;
+}
+/* Small tweak so the scrollable area doesn't hide under the fixed navbar */
+#portfolio { padding-top: 30px; }
