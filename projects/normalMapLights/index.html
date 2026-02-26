@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragment Shader - Normal Map Lights</title>
+  <link rel="stylesheet" href="../../public/css/styles.css">
+  
+  <!-- Syntax Highlighting with Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+  
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="../../public/css/projects-style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/#" class="brand">Abinand Sivakumar</a>
+      <nav class="site-nav">
+        <a href="/#/graphics">Back</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+  
+  <main id="app">
+    <div class="project-container">
+      <h1 class="project-title">Normal Map Lights</h1>
+      
+      <div class="sections">
+        <!-- Canvas Section -->
+        <div class="section">
+          <h2 class="section-title">Demo</h2>
+          <div id="demo" class="canvas-section">
+          </div>
+          <div id="demo-message" class="canvas-section" style="display: none;">
+            <p>Viewable only on desktop screens</p>
+          </div>
+        </div>
+        
+        <!-- Code Section -->
+        <div class="section">
+          <h2 class="section-title">Shader Code</h2>
+          <div class="code-section">
+            <pre><code class="language-javascript">
+uniform vec2 resolution;
+uniform vec3 light;
+uniform sampler2D normalMap;
+void main(){
+vec2 pixel = gl_FragCoord.xy / resolution.xy; // find pixel on screen
+vec3 normal = texture2D(normalMap, pixel).xyz; //get surface normal at pixel
+normal -= vec3(0.5,0.5,0.0); // shift normal co-ordinate system
+vec4 color = vec4(1.0, pixel.x, pixel.y, 1.0); // color set by pixel coordinates
+
+vec3 lightDirection = vec3(light.x - gl_FragCoord.x, light.y - gl_FragCoord.y, 60.0); 
+
+lightDirection = normalize(lightDirection);
+normal =  normalize(normal);
+
+float diffuse = max(dot(lightDirection,normal), 0.0);
+float distance = distance(light.xy, gl_FragCoord.xy);
+
+if(distance < light.z * resolution.x){
+float distanceFactor = (1.0 - (distance/(light.z * resolution.x)));
+gl_FragColor = color * diffuse * distanceFactor;
+}
+else{
+gl_FragColor = vec4(0.0);
+}
+} 
+            </code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Abinand Sivakumar</p>
+    </div>
+  </footer>
+  
+  <!-- Mobile menu toggle script -->
+  <script src="../../public/js/mobile-menu.js"></script>
+  
+  <!-- project script -->
+  <script type="shader-code" id="fragShader">
+    uniform vec2 resolution;
+    uniform vec3 light;
+    uniform sampler2D normalMap;
+    void main(){
+      vec2 pixel = gl_FragCoord.xy / resolution.xy; // find pixel on screen
+      vec3 normal = texture2D(normalMap, pixel).xyz; //get surface normal at pixel
+      normal -= vec3(0.5,0.5,0.0); // shift normal co-ordinate system
+      vec4 color = vec4(1.0, pixel.x, pixel.y, 1.0); // pixel color determined by pixel coordinates
+      
+      vec3 lightDirection = vec3(light.x - gl_FragCoord.x, light.y - gl_FragCoord.y, 60.0); 
+      
+      lightDirection = normalize(lightDirection);
+      normal =  normalize(normal);
+      
+      float diffuse = max(dot(lightDirection,normal), 0.0);
+      float distance = distance(light.xy, gl_FragCoord.xy);
+      
+      if(distance < light.z * resolution.x){
+        float distanceFactor = (1.0 - (distance/(light.z * resolution.x)));
+        gl_FragColor = color * diffuse * distanceFactor;
+      }
+      else{
+        gl_FragColor = vec4(0.0);
+      }
+    }
+  </script>
+  <script>
+    var scene;
+    var camera;
+    var renderer;
+    const canvas = document.getElementById('demo');
+
+    function scene_setup(){
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera( 75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000 );
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      canvas.appendChild( renderer.domElement );
+    }
+    
+    function render() {
+      requestAnimationFrame( render );
+      renderer.render( scene, camera );
+    }
+    
+    
+    scene_setup();
+    
+    var uniforms = {
+      normalMap:{type:'t',value: THREE.ImageUtils.loadTexture('./normal_map.jpg')},
+      //Normal map image courtesy of junninhotor - DeviantArt. Image url: http://www.deviantart.com/art/Free-tilable-normal-map-411253812
+      
+      light:{type:'v3',value: new THREE.Vector3()},
+      resolution: {type:"v2", value:new THREE.Vector2(canvas.clientWidth, canvas.clientHeight)},
+    };
+    uniforms.light.value.x = canvas.clientWidth/2;
+    uniforms.light.value.y = canvas.clientHeight/2;
+    uniforms.light.value.z = 1;
+    
+    var shaderCode = document.getElementById('fragShader').innerHTML;
+    var material = new THREE.ShaderMaterial({uniforms:uniforms, fragmentShader: shaderCode});
+    var geometry = new THREE.PlaneGeometry(10, 10);
+    var sprite = new THREE.Mesh(geometry, material);
+    scene.add(sprite);
+    sprite.position.z = -3;
+    
+    render();
+    
+    document.onmousemove = function(event) {
+      const canvasRect = canvas.getBoundingClientRect();
+      uniforms.light.value.x = event.clientX - canvasRect.left;
+      uniforms.light.value.y = (canvasRect.bottom) - event.clientY;
+    }
+  </script>
+  
+  
+  <!-- Highlight.js initialization -->
+  <script>
+    hljs.highlightAll();
+  </script>
+</body>
+</html>

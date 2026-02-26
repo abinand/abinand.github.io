@@ -1,0 +1,135 @@
+.demo-canvas {
+    border: 1px solid var(--border-light);
+    display: block;
+    margin-bottom: 1rem;
+    max-width: 100%;
+}
+
+.demo-section {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+}
+
+.demo-section h1 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.demo-section h2 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.demo-section p {
+    margin: 0.5rem 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.demo-section a {
+    text-decoration: none;
+}
+
+.demo-section a:hover {
+    text-decoration: underline;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.input-group h2 {
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.button-group {
+    margin-top: 1rem;
+}
+
+.button-group button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    opacity: 0.9;
+}
+
+.output-value {
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    margin-top: 0.5rem;
+    width:20rem;
+}
+
+#demo-message {
+    display: none;
+}
+
+#demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "canvas canvas"
+    "left right";
+}
+
+#demo .demo-canvas {
+    grid-area: canvas;
+}
+
+#demo .demo-left {
+    grid-area: left;
+    display: flex;
+    flex-direction: column;
+}
+
+#demo .demo-right {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+/* Reduce extra spacing between sections inside the right column */
+#demo .demo-right .demo-section {
+    margin-bottom: 0;
+}
+
+#demo-message {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    #demo {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "canvas"
+        "left"
+        "right";
+    }
+    
+    #demo-message {
+        display: flex !important;
+    }
+}

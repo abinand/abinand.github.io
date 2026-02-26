@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Page not found</title>
+</head>
+<body>
+  <script>
+    // Redirect unknown paths to index and preserve the path as a hash for the SPA
+    (function(){
+      var path = location.pathname || '/'
+      if(path && path !== '/'){
+        // Use replace so the browser doesn't create an extra history entry
+        location.replace('/#' + path)
+      } else {
+        location.replace('/')
+      }
+    })();
+  </script>
+</body>
+</html>

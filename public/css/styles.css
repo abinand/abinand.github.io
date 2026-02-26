@@ -1,0 +1,88 @@
+/* Color Variables */
+:root {
+  /* Primary Colors */
+  --accent: #4972af;
+  --accent-hover: #0052cc;
+  
+  /* Text Colors */
+  --text-primary: #222;
+  --text-secondary: #333;
+  --text-muted: #666;
+  
+  /* Background Colors */
+  --bg-primary: #fff;
+  --bg-light: #f8f9fb;
+  
+  /* Border Colors */
+  --border-light: #eee;
+  --border-lighter: #f0f0f0;
+  --border-card: #e8e8e8;
+  
+  /* Shadow Colors */
+  --shadow-subtle: rgba(20, 20, 40, 0.04);
+  --shadow-light: rgba(20, 20, 40, 0.06);
+  --shadow-medium: rgba(20, 20, 40, 0.08);
+  --shadow-button: rgba(0, 0, 0, 0.04);
+  
+  /* Layout */
+  --max-width: 1100px;
+  --footer-height: 64px;
+}
+*{box-sizing:border-box}
+html{overflow-y:scroll}
+body{font-family:Inter,ui-sans-serif,system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.5;color:var(--text-primary);margin:0;background:var(--bg-primary);min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+main#app{flex:1;display:flex;flex-direction:column;min-height:0}
+.site-header{background:var(--bg-light);border-bottom:1px solid var(--border-light)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:700;color:var(--accent);text-decoration:none}
+.site-nav a{margin-left:1rem;color:var(--text-secondary);text-decoration:none}
+.site-nav a:hover{text-decoration:underline}
+.hero{padding:3rem 0;border-bottom:1px solid var(--border-lighter);display:flex;flex-direction:column;justify-content:center;min-height:0}
+.hero h1{margin:0 0 .5rem;font-size:clamp(1.4rem,2.5vw,2rem)}
+.hero p{color:var(--text-muted);margin:0 0 1rem;max-width:65ch}
+.socials a{margin-right:0.75rem;color:var(--accent);text-decoration:none}
+.site-footer{height:var(--footer-height);padding:0 1rem;color:var(--text-muted);border-top:1px solid var(--border-lighter);margin-top:0;position:fixed;left:0;right:0;bottom:0;background:var(--bg-primary);box-shadow:0 -6px 18px var(--shadow-subtle);z-index:60;display:flex;align-items:center}
+
+/* make portfolio sections fill available height inside main */
+.portfolio-section{padding:2rem 0;display:flex;flex-direction:column;min-height:0}
+.portfolio-section h2{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;flex:1;overflow:auto}
+main#app{padding-bottom:var(--footer-height)}
+
+/* Portfolio layout */
+.portfolio-section{padding:2rem 0}
+.portfolio-section h2{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;flex:1;overflow:auto} 
+.card{border:1px solid var(--border-card);border-radius:8px;padding:1rem;background:var(--bg-primary);display:flex;flex-direction:column;gap:.5rem;min-height:140px}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:6px}
+.card h3{margin:.25rem 0;font-size:1rem}
+.card p{margin:0;color:var(--text-muted);font-size:.95rem}
+
+.card-actions{margin-top:auto;display:flex;justify-content:center;gap:.5rem}
+.card-cta{display:inline-block;padding:.5rem .75rem;border-radius:6px;background:var(--accent);color:var(--bg-primary);text-decoration:none;font-weight:600}
+.card-cta:hover{filter:brightness(.95)}
+
+.hidden{display:none !important}
+
+/* responsive tweaks */
+.menu-toggle{display:none;background:transparent;border:0;font-size:1.25rem;cursor:pointer;color:var(--accent)}
+/* ensure header container is positioned so absolute nav can be placed relative to it */
+.site-header .container{position:relative}
+@media (max-width:900px){
+  /* show burger on tablet and smaller */
+  .menu-toggle{display:block;padding:.25rem .5rem;border-radius:6px;background:var(--bg-primary);border:1px solid var(--shadow-button);box-shadow:0 4px 10px var(--shadow-light);font-size:1.35rem;align-self:center;margin-left:0;z-index:100}
+  /* hide the nav until the burger opens it */
+  .site-nav{display:none}
+  .site-nav.open{display:block;position:absolute;top:56px;right:1rem;background:var(--bg-primary);border:1px solid var(--border-light);border-radius:8px;padding:0.5rem 0;box-shadow:0 6px 18px var(--shadow-medium);z-index:90}
+  .site-nav a{display:block;padding:.6rem 1rem;margin:0}
+  .grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+}
+@media (max-width:640px){
+  /* small mobile tweaks */
+  .hero{padding:2rem 0}
+  .container{padding:1rem}
+  .brand{font-size:1rem}
+  .menu-toggle{font-size:1.45rem}
+  .grid{grid-template-columns:1fr;gap:.8rem}
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesselation with WebGL</title>
+    <link rel="stylesheet" href="../../public/css/styles.css">
+    
+    <!-- Syntax Highlighting with Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    
+    <!-- Project Styles -->
+    <link rel="stylesheet" href="../../public/css/projects-style.css">
+    <style>
+        /* Gathered inline styles from page */
+        #gl-canvas { padding:20px; }
+        .controls { padding:20px; }
+        #angle { width:300px; }
+        .shape-fieldset { border:0; padding:0; margin:0; }
+        .shape-fieldset label { display:block; margin:6px 0; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/#" class="brand">Abinand Sivakumar</a>
+            <nav class="site-nav">
+                <a href="/#/graphics">Back</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+    
+    <main id="app">
+        <div class="project-container">
+            <h1 class="project-title">Tesselation with WebGL</h1>
+            
+            <div class="sections">
+                <!-- Canvas Section -->
+                <div class="section">
+                    <h2 class="section-title">Demo</h2>
+                    <div id="demo" class="canvas-section">
+                        <canvas id="gl-canvas" width="400" height="400">
+                            Oops ... your browser doesn't support the HTML5 canvas element
+                        </canvas>
+                        <div class="controls">
+                            <p>Angle: <span id="angleValue"></span></p>
+                            <input value="40" type="range" id="angle" min="-360" max="360" step="1" onchange="WebGLProgram.changeAngle(value)"><br/>
+                            <p>Subdivision levels: <span id="levelValue"></span></p>
+                            <input type="range" id="level" value="5" min="0" max="6" onchange="WebGLProgram.changeLevel(value)">
+                            <p>Shape to draw: </p>
+                            <fieldset class="shape-fieldset">
+                                <label><input type="radio" name="shape" value="0" checked onchange="WebGLProgram.changeShape(this.value)"> Triangle</label>
+                                <label><input type="radio" name="shape" value="1" onchange="WebGLProgram.changeShape(this.value)"> Square</label>
+                                <label><input type="radio" name="shape" value="2" onchange="WebGLProgram.changeShape(this.value)"> Triangle Gasket</label>
+                                <label><input type="radio" name="shape" value="3" onchange="WebGLProgram.changeShape(this.value)"> Square Gasket</label>
+                            </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                    <div id="demo-message" class="canvas-section" style="display:none;">
+                        <p>Viewable only on desktop screens</p>
+                    </div>
+                </div>
+                <!--Code Section-->
+                <div class="section">
+                    <h2 class="section-title">Code</h2>
+                    <div class="code-section">
+                        <pre><code class="language-javascript">
+ const WebGLProgram = (function(){
+    const shape = {
+        TRIANGLE: 0,
+        SQUARE: 1,
+        TRIANGLE_GASKET: 2,
+        SQUARE_GASKET: 3
+    };
+    let canvas, gl, program, points = [], 
+        NumTimesToSubdivide = 5, TwistAngle = 40, currentShape= shape.TRIANGLE;
+    
+
+    const twist = function(point){
+        let theta = radians(TwistAngle), d = Math.sqrt(Math.pow(point[0],2) + Math.pow(point[1],2)),
+        costhetad = Math.cos(theta * d), sinthetad =  Math.sin(theta * d);
+
+        return vec2(point[0] * costhetad - point[1] * sinthetad,
+                point[0] * sinthetad + point[1] * costhetad
+            );
+    };
+
+    let triangle = function( a, b, c )
+    {
+        points.push( twist(a), twist(b), twist(c) );
+    }
+
+    let divideTriangle = function( a, b, c, count, isGasket)
+    {
+        // check for end of recursion
+        if ( count === 0 ) {
+            triangle( a, b, c );
+        }
+        else {
+            //bisect the sides
+            let ab = mix( a, b, 0.5 );
+            let ac = mix( a, c, 0.5 );
+            let bc = mix( b, c, 0.5 );
+            --count;
+
+            //new triangles
+            divideTriangle( a, ab, ac, count, isGasket);
+            divideTriangle( c, ac, bc, count, isGasket);
+            divideTriangle( b, bc, ab, count, isGasket);
+            if(!isGasket){
+                divideTriangle(ab, bc, ac, count, isGasket);
+            }
+        }
+    }
+
+    const renderTriangles = function(){
+        gl.clear( gl.COLOR_BUFFER_BIT );
+        gl.drawArrays( gl.TRIANGLES, 0, points.length );
+    }
+
+    const loadAndRender = function(isStrip)
+    {
+        // Load the data into the GPU
+        let bufferId = gl.createBuffer();
+        gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
+        gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+
+        // Associate out shader variables with our data buffer
+        let vPosition = gl.getAttribLocation( program, "vPosition" );
+        gl.enableVertexAttribArray( vPosition );
+        gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
+        
+        renderTriangles();
+    }
+    const draw = function(value){
+        currentShape = currentShape || 0; // check for null
+        switch(currentShape){
+            case shape.TRIANGLE: drawTriangle();
+                            break;
+            case shape.SQUARE: drawSquare();
+                            break;
+            case shape.TRIANGLE_GASKET: drawTriangle(true);   
+                            break;
+            case shape.SQUARE_GASKET: drawSquare(true);
+                            break;
+        }
+    }
+    const drawTriangle = function(asGasket){
+            points = [];
+            
+            let vertices = [
+                vec2( -0.5, -0.5 ),
+                vec2(  0,  0.5 ),
+                vec2(  0.5, -0.5 )
+            ];
+
+            divideTriangle( vertices[0], vertices[1], vertices[2],
+                            NumTimesToSubdivide, asGasket);
+
+            loadAndRender();
+    }
+    const drawSquare = function(asGasket){
+        points = [];
+
+        let vertices1 = [
+            vec2( -0.5, 0.5),
+            vec2( -0.5, -0.5),
+            vec2( 0.5, 0.5),
+        ];
+
+        let vertices2 = [
+            vec2( -0.5, -0.5),
+            vec2( 0.5, 0.5),
+            vec2( 0.5, -0.5)
+        ];
+
+        divideTriangle( vertices1[0], vertices1[1], vertices1[2], NumTimesToSubdivide, asGasket);
+        divideTriangle( vertices2[0], vertices2[1], vertices2[2], NumTimesToSubdivide, asGasket);
+
+        loadAndRender(true);
+    }
+    return {
+        changeLevel: function(level){
+            NumTimesToSubdivide = parseInt(level);
+            document.getElementById("levelValue").innerHTML=level;
+            draw();
+        },
+        changeAngle: function(angle){
+            TwistAngle = parseInt(angle);
+            document.getElementById("angleValue").innerHTML = angle;
+            draw();
+        },
+        changeShape: function(shapeValue){
+            currentShape = parseInt(shapeValue);
+            draw();
+        },
+        init: function(){
+            document.getElementById("levelValue").innerHTML=NumTimesToSubdivide;
+            document.getElementById("angleValue").innerHTML = TwistAngle;
+
+            canvas = document.getElementById( "gl-canvas" );
+            gl = WebGLUtils.setupWebGL( canvas );
+            if ( !gl ) { alert( "WebGL isn't available" ); }
+            
+            //  Configure WebGL
+            gl.viewport( 0, 0, canvas.width, canvas.height );
+            gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
+
+            //  Load shaders and initialize attribute buffers
+            program = initShaders( gl, "vertex-shader", "fragment-shader" );
+            gl.useProgram( program );
+
+            draw();
+        }
+    }
+})();
+
+window.onload = WebGLProgram.init;                           
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Abinand Sivakumar</p>
+        </div>
+    </footer>
+    
+    <!-- Mobile menu toggle script -->
+    <script src="../../public/js/mobile-menu.js"></script>
+    
+    <!-- project script -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        void main()
+        {
+            gl_Position = vPosition;
+        }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        void main()
+        {
+            gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+        }
+    </script>
+    <script type="text/javascript" src="../../public/js/webgl-utils.js"></script>
+    <script type="text/javascript" src="./scripts/initShaders.js"></script>
+    <script type="text/javascript" src="./scripts/MV.js"></script>
+    <script type="text/javascript" src="./scripts/TesselateAndTwist.js"></script>
+    
+    
+    <!-- Highlight.js initialization -->
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title>
+    <link rel="stylesheet" href="../../public/css/styles.css">
+    
+    <!-- Syntax Highlighting with Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    
+    <!-- Project Styles -->
+    <link rel="stylesheet" href="../../public/css/projects-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/#" class="brand">Abinand Sivakumar</a>
+            <nav class="site-nav">
+                <a href="/#/graphics">Back</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+    
+    <main id="app">
+        <div class="project-container">
+            <h1 class="project-title">Template</h1>
+            
+            <div class="sections">
+                <!-- Canvas Section -->
+                <div class="section">
+                    <h2 class="section-title">Demo</h2>
+                    <div id="demo" class="canvas-section">
+                    </div>
+                    <div id="demo-message" class="canvas-section" style="display: none;">
+                        <p>Viewable only on desktop screens</p>
+                    </div>
+                </div>
+                
+                <!-- Code Section -->
+                <div class="section">
+                    <h2 class="section-title">Code</h2>
+                    <div class="code-section">
+                        <pre><code class="language-javascript">
+                          //Code Sample
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Abinand Sivakumar</p>
+        </div>
+    </footer>
+    
+    <!-- Mobile menu toggle script -->
+    <script src="../../public/js/mobile-menu.js"></script>
+    
+    <!-- project script -->
+    <script type="text/javascript" src="./project.js"></script>  
+    
+    <!-- Highlight.js initialization -->
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

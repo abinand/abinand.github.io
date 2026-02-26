@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spherical Linear Interpolation</title>
+    <link rel="stylesheet" href="../../public/css/styles.css">
+    <link rel="stylesheet" href="../../public/css/projects-style.css">
+    <link rel="stylesheet" href="./quaternion-style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/#" class="brand">Abinand Sivakumar</a>
+            <nav class="site-nav">
+                <a href="/#/graphics">Back</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+    
+    <main id="app">
+        <div class="project-container">
+            <h1 class="project-title">Spherical Linear Interpolation with Quaternions</h1>
+            
+            <div class="sections">
+            </div>
+            
+            <div id="demo">
+                <canvas id="gl-canvas" class="demo-canvas" width="950px" height="300px"></canvas>
+                
+                <div class="demo-left">
+                    <div class="demo-section">
+                        <h1>Enter Euler Angles (degrees):</h1>
+                        <div class="input-group">
+                            <p>Heading: <span id="headingValue"></span></p>
+                            <input value="45" type="range" id="heading" min="0" max="180" step="1" onchange="WebGLProgram.reset()"><br/>
+                        </div>
+                        <div class="input-group">
+                            <p>Pitch: <span id="pitchValue"></span></p>
+                            <input value="45" type="range" id="pitch" min="0" max="180" step="1" onchange="WebGLProgram.reset()"><br/>
+                        </div>
+                        <div class="input-group">
+                            <p>Bank: <span id="bankValue"></span></p>
+                            <input value="0" type="range" id="bank" min="0" max="180" step="1" onchange="WebGLProgram.reset()"><br/>
+                        </div>
+                        <div class="button-group">
+                            <button onclick="WebGLProgram.recalculate()">Re-Calculate</button>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-section">
+                        <h1>How it works?</h1>
+                        <p>Input the desired orientation in euler angles.</p>
+                        <p>The cubes are animated from their initial (zero) orientation to the desired orientation.</p>
+                        <p>The code uses <a href="https://gamemath.com/book/orient.html#quaternions">quaternion</a> spherical linear interpolation to animate the rotation.</p>
+                    </div>
+                </div>
+                
+                <div class="demo-right">
+                    <div class="demo-section">
+                        <h1>Equivalent Quaternion:</h1>
+                        <div>
+                            <p><b>w component</b> cos(angle/2):</p>
+                            <p id="quaternion-w" class="output-value"></p>
+                        </div>
+                        <div>
+                            <p><b>v component</b> sin(angle/2) * axis vector:</p> 
+                            <p id="quaternion-v" class="output-value"></p>
+                        </div>
+                        <div>
+                            <p>Interpolation</p>
+                            <p id="slerp" class="output-value"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-section">
+                        <h1>Axis and Angle Representation:</h1>
+                        <p id="axis-angle" class="output-value"></p>
+                    </div>
+                </div>
+                
+                <div id="demo-message">
+                    <p>Viewable only on desktop screens</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Abinand Sivakumar</p>
+        </div>
+    </footer>
+    
+    <!-- Mobile menu toggle script -->
+    <script src="../../public/js/mobile-menu.js"></script>
+    
+    <!-- project script -->
+    <script type="text/javascript" src="./glMatrix-0.9.5.min.js"></script>  
+    <script type="text/javascript" src="../../public/js/webgl-utils.js"></script>  
+    <script id="shader-vs" type="x-shader/x-vertex">
+        attribute vec3 aVertexPosition;
+        attribute vec4 aVertexColor;
+        
+        uniform mat4 uPMatrix;
+        uniform mat4 uMvMatrix;
+        
+        varying vec4 vColor;
+        
+        void main(void){
+            gl_Position = uPMatrix * uMvMatrix * vec4(aVertexPosition, 1.0);
+            vColor = aVertexColor;
+        }
+    </script>
+    
+    <script id="shader-fs" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 vColor;
+        
+        void main(void){
+            gl_FragColor = vColor;
+        }
+    </script>
+    <script type="text/javascript" src="./quaternions.js"></script>
+    
+</body>
+</html>
