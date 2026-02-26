@@ -1,6 +1,6 @@
 # My personal website
 
-Check it out on [abinand.com](https://abinand.com)
+Check it out on <a href="https://abinand.com" target="_blank"> abinand.com </a>
 
 The website has links to my socials and a select portfolio of projects.
 
