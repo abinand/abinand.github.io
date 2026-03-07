@@ -9,18 +9,22 @@ const PORTFOLIOS = {
     title: 'Data Portfolio',
     description: 'Projects focused on data analysis, dashboards and visualizations.',
     projects: [
+      { title: 'Retail Allocation Dashboard',
+        desc: 'A Power BI dashboard built from synthetic data to demonstrate KPIs used for determining inventory allocations and replenishment strategy.',
+        url: 'https://github.com/abinand/supply-chain-dashboard',
+        img: './public/images/retail-allocation-dashboard.png' },
       { title: 'Hypothesis Testing', 
-        desc: 'Demonstration of A/B testing to evaluate the performance of a landing page to increase conversions',
+        desc: 'Demonstration of A/B testing to evaluate the performance of a landing page to increase conversions.',
         url: 'https://github.com/abinand/ecom-ab-hyptest',
         img: './public/images/hypothesis-testing.png' },
       { title: 'Board Game Popularity', 
-        desc: 'Exploratory data analysis on how complexity of board games have evolved and how that affects their popularity', 
+        desc: 'Exploratory data analysis on how complexity of board games have evolved and how that affects their popularity.', 
         url: 'https://github.com/abinand/bgg-eda-popularity',
         img: './public/images/bgg-popularity.png' },
       { title: 'Board Game Mechanics', 
-        desc: 'An extension of the analysis on board games based on specific game mechanics',
+        desc: 'An extension of the analysis on board games based on specific game mechanics.',
         url: 'https://github.com/abinand/bgg-mechanics',
-        img: './public/images/bgg-mechanics.png'},
+        img: './public/images/bgg-mechanics.png'}
     ]
   },
   '/graphics': {
