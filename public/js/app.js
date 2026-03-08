@@ -31,16 +31,15 @@ const PORTFOLIOS = {
     title: 'Graphics Gallery',
     description: 'Projects focused on creative coding, shaders and real-time 3D graphics',
     projects: [
+      { title: 'Splatter Shader',
+        desc: 'A glsl fragment shader using value noise as signed distance function to create a splatter animation',
+        url: './projects/splatterShader',
+        img: './public/images/splatter-shader.png'},
       {
         title: 'Memory Game',
         desc: 'Classic puzzle game to test your memory by uncovering pairs of hand-drawn matching tiles.',
         url: 'https://abinand.itch.io/mem',
         img: './public/images/mem-cover.png' },
-      {
-        title: 'Escape the Fall Game',
-        desc: 'Infinite side-scrolling game with projectile motion, procedural path generation built with the Universal Render Pipeline in Unity',
-        url: 'https://play.unity.com/en/games/bbcf50d0-2cc0-4957-9b5c-345bb65a9293/drowning-frog',
-        img: './public/images/drowning-frog.webp' },
       {
         title: 'Normal Map Fragment Shader',
         desc: 'Demonstration of diffuse lighting on a normal map texture built with three.js and WebGL fragment shader',
@@ -51,16 +50,21 @@ const PORTFOLIOS = {
         desc: 'Unity animation scripts for translation, rotation, scaling and event handling.',
         url: 'https://play.unity.com/en/games/6fed0807-0add-42a8-911a-c58b906abf39/cage-factory',
         img: './public/images/cage-factory.webp' },
-      {
-        title: 'Three JS Animation',
-        desc: 'A simple three.js animation that can be applied on a background canvas in a web page.',
-        url: './projects/cubesAnimation',
-        img: './public/images/cubes-animation.png' },
       { 
         title: 'Jet Fighter Micro Game', 
         desc: 'A simple game built with Unity featuring rigidbody physics, collision detection, audio, and particle effects', 
         url: 'https://play.unity.com/en/games/fd00ad67-d91a-462b-9855-74042c3a8e6a/jet-fighter',
         img: './public/images/jet-fighter.webp' },
+      {
+        title: 'Three JS Animation',
+        desc: 'A simple three.js animation that can be applied on a background canvas in a web page.',
+        url: './projects/cubesAnimation',
+        img: './public/images/cubes-animation.png' },
+      {
+        title: 'Escape the Fall Game',
+        desc: 'Infinite side-scrolling game with projectile motion, procedural path generation built with the Universal Render Pipeline in Unity',
+        url: 'https://play.unity.com/en/games/bbcf50d0-2cc0-4957-9b5c-345bb65a9293/drowning-frog',
+        img: './public/images/drowning-frog.webp' },
       {
         title: 'Quaternion Interpolation',
         desc: 'A JavaScript implemenation of spherical linear interpolation between quanternions for animating rotations',
