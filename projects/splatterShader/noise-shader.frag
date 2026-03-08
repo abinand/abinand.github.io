@@ -27,8 +27,8 @@ void main() {
     gl_FragColor = vec4(color,1.0);
 }
 
-// Make a 2D random number mulitplying sin of a dot product with a large number
 float random (in vec2 st) {
+    // Mulitplying sin of a dot product with a large number
     return fract(sin(dot(st.xy, vec2(22.9217,167.235))) * 82931.69260);
 }
 
